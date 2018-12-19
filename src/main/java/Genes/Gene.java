@@ -26,7 +26,9 @@ public class Gene {
     private double[] xOmega;
     private double[] yMagnitude;
     private Filter filter;
-    private double fitness;
+    private double totalFitness;
+    private double[] fitnessByOmega = new double[6];
+
 
     /**
      * This constructor creates default gene.
@@ -46,7 +48,8 @@ public class Gene {
         xOmega = filter.getOmegaCoordinate();
         yMagnitude = filter.getMagnitudeCoordinate();
         this.filter = filter;
-        fitness=0;
+        totalFitness =0;
+        fitnessByOmega=null;
     }
 
     public double[] getxOmega() {
@@ -76,12 +79,12 @@ public class Gene {
         this.filter = filter;
     }
 
-    public double getFitness() {
-        return fitness;
+    public double getTotalFitness() {
+        return totalFitness;
     }
 
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
+    public void setTotalFitness(double totalFitness) {
+        this.totalFitness = totalFitness;
     }
 
     /**
@@ -105,5 +108,13 @@ public class Gene {
                 break;
         }
         return gene;
+    }
+
+    public double[] getFitnessByOmega() {
+        return fitnessByOmega;
+    }
+
+    public void setFitnessByOmega(double[] fitnessByOmega) {
+        this.fitnessByOmega = fitnessByOmega;
     }
 }

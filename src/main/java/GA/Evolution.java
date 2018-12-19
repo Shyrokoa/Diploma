@@ -64,21 +64,28 @@ public class Evolution {
         determinationOfTheWinners();
         loserGenesTransformation();
 
-        if(geneSetArrayList.get(0).getFitness()<25){
-            System.out.println("FINISH: ");
-            for (int i=0;i<geneSetArrayList.get(0).getListOfGeneSet().size();i++){
-                System.out.println(geneSetArrayList.get(0).getListOfGeneSet().get(i).getFilter().getTransferFunction());
-            }
-            System.out.println("Fitness: "+geneSetArrayList.get(0).getFitness());
+        int kukarek = 0;
+        if(geneSetArrayList.get(0).getFitness()<5){
+            for (int i=0;i<6;i++){
+                if (geneSetArrayList.get(0).getGeneSetFitness()[i]<5){
+                    ++kukarek;
+                }            }
+            if (kukarek==6){
+                System.out.println("FINISH: ");
+                for (int i=0;i<geneSetArrayList.get(0).getListOfGeneSet().size();i++){
+                    System.out.println(geneSetArrayList.get(0).getListOfGeneSet().get(i).getFilter().getTransferFunction());
+                }
+                System.out.println("Fitness: "+geneSetArrayList.get(0).getFitness());
 
-            final AudioFormat audioFormat = new AudioFormat(4048, 8, 1, true, true);
-            SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat);
-            line.open(audioFormat);
-            line.start();
-            byte[] buffer = makeSinWave(audioFormat, 800, 1, TimeUnit.SECONDS);
-            line.write(buffer, 0, buffer.length);
-            line.drain();
-            line.close();
+                final AudioFormat audioFormat = new AudioFormat(4048, 8, 1, true, true);
+                SourceDataLine line = AudioSystem.getSourceDataLine(audioFormat);
+                line.open(audioFormat);
+                line.start();
+                byte[] buffer = makeSinWave(audioFormat, 800, 1, TimeUnit.SECONDS);
+                line.write(buffer, 0, buffer.length);
+                line.drain();
+                line.close();
+            }
 
         }else{
             System.out.println("EVOLUTION for "+population+" population");

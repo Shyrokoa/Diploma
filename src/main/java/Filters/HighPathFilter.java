@@ -67,7 +67,7 @@ public class HighPathFilter extends Filter {
 
     @Override
     public Filter createRandomFilter() throws Exception {
-        timeConstant = new Random().nextInt(50) + 1;
+        timeConstant = new Random().nextInt(10) + 1;
         calculateMagnitudePlot();
         filterKey = 1;
         return this;
@@ -75,7 +75,7 @@ public class HighPathFilter extends Filter {
 
     @Override
     public Filter mutateFilterTransferFunction() throws Exception {
-        timeConstant = new Random().nextInt(50) + 1;
+        timeConstant = new Random().nextInt(10) + 1;
         calculateMagnitudePlot();
         return this;
     }

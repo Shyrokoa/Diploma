@@ -68,8 +68,8 @@ public class LowPathFilter extends Filter {
     }
 
     public Filter createRandomFilter() throws Exception {
-        amplifier = new Random().nextInt(50) + 1;
-        timeConstant = new Random().nextInt(50) + 1;
+        amplifier = new Random().nextInt(10) + 1;
+        timeConstant = new Random().nextInt(10) + 1;
         calculateMagnitudePlot();
         filterKey = 0;
         return this;
@@ -77,7 +77,7 @@ public class LowPathFilter extends Filter {
 
     public Filter mutateFilterTransferFunction() throws Exception {
         int mutatePosition = new Random().nextInt(2);
-        int newValue = new Random().nextInt(50) + 1;
+        int newValue = new Random().nextInt(10) + 1;
         //System.out.println("Mutate position: " + mutatePosition + "  New value: " + newValue);
         switch (mutatePosition) {
             case 0:

@@ -8,7 +8,6 @@ import java.util.Comparator;
 public class GeneSet{
     private int geneSetQuantity;
     private ArrayList<Gene> listOfGeneSet;
-    private double geneSetFitness;
     private double[] geneSetMagnitudeArray;
     private TextReader textReader;
     private double fitness;
@@ -68,9 +67,6 @@ public class GeneSet{
         this.listOfGeneSet = listOfGeneSet;
     }
 
-    public void setGeneSetFitness(double geneSetFitness) {
-        this.geneSetFitness = geneSetFitness;
-    }
 
     public void setGeneSetMagnitudeArray(double[] geneSetMagnitudeArray) {
         this.geneSetMagnitudeArray = geneSetMagnitudeArray;
