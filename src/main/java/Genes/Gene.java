@@ -15,7 +15,7 @@ import java.util.Random;
  * (variables) known as Genes. Genes are joined into a
  * string to form a Chromosome (solution).
  *
- * This class defines a Gene and assigns a filter. All
+ * This class defines a Chromosome and assigns a filter. All
  * the attributes in this class are private.
  *
  * <p/>

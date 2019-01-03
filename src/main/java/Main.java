@@ -12,9 +12,9 @@ public class Main {
         Evolution evolution = new Evolution(geneSetList,textReader);
         /*System.out.println("INITIAL POPULATION:");
         for (int i=0;i<geneSetListQuantity;i++){
-            System.out.println(i+" from GeneSetList fitness -> "+evolution.getGeneSetArrayList().get(i).getTotalFitness());
+            System.out.println(i+" from ChromosomeSetList fitness -> "+evolution.getChromosomeSetArrayList().get(i).getTotalFitness());
             for (int z=0;z<geneSetQuantity;z++){
-                System.out.println("GeneSet "+z+": "+evolution.getGeneSetArrayList().get(i).getListOfGeneSet().get(z).getFilter().getTransferFunction());
+                System.out.println("ChromosomeSet "+z+": "+evolution.getChromosomeSetArrayList().get(i).getListOfChromosomeSet().get(z).getFilter().getTransferFunction());
             }
         }
 
@@ -23,7 +23,7 @@ public class Main {
         for (int i=0;i<geneSetListQuantity;i++){
             System.out.println(i+" --> "+evolution.getWinnersGeneSet().get(i).getTotalFitness());
             for (int z=0;z<geneSetQuantity;z++){
-                System.out.println(evolution.getWinnersGeneSet().get(i).getListOfGeneSet().get(z).getFilter().getTransferFunction());
+                System.out.println(evolution.getWinnersGeneSet().get(i).getListOfChromosomeSet().get(z).getFilter().getTransferFunction());
             }
         }
 
@@ -32,7 +32,7 @@ public class Main {
         for (int i=1;i<geneSetListQuantity;i++){
             System.out.println(i+" --> "+evolution.getWinnersGeneSet().get(i).getTotalFitness());
             for (int z=0;z<geneSetQuantity;z++){
-                System.out.println(evolution.getWinnersGeneSet().get(i).getListOfGeneSet().get(z).getFilter().getTransferFunction());
+                System.out.println(evolution.getWinnersGeneSet().get(i).getListOfChromosomeSet().get(z).getFilter().getTransferFunction());
             }
         }*/
         evolution.evolution();
