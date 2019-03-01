@@ -8,7 +8,7 @@ import static java.lang.Math.*;
 public class HighPassFilter extends Filter {
 
 
-    private final int filterKey = 1;
+    private final int HIGH_PASS_FILTER_KEY = 1;
     private String transferFunction;
     private double timeConstant;
     private ArrayList<Double> cutoffFrequency;
@@ -93,7 +93,7 @@ public class HighPassFilter extends Filter {
 
     @Override
     public int getFilterKey() {
-        return this.filterKey;
+        return this.HIGH_PASS_FILTER_KEY;
     }
 
     @Override

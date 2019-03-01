@@ -7,7 +7,7 @@ import static java.lang.Math.*;
 
 public class LowPassFilter extends Filter {
 
-    private final int filterKey = 0;
+    private final int LOW_PASS_FILTER_KEY = 0;
     private double amplifier;
     private String transferFunction;
     private double timeConstant;
@@ -27,8 +27,7 @@ public class LowPassFilter extends Filter {
 
     @Override
     public String getTransferFunction() {
-        transferFunction = amplifier + "/" + "(" + timeConstant + "s+" + 1 + ")";
-        return transferFunction;
+        return String.format("%a/(%ts+1)", amplifier, timeConstant);
     }
 
     @Override
@@ -102,7 +101,7 @@ public class LowPassFilter extends Filter {
 
     @Override
     public int getFilterKey() {
-        return this.filterKey;
+        return this.LOW_PASS_FILTER_KEY;
     }
 
     @Override
