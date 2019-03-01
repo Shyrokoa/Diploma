@@ -1,8 +1,8 @@
 package Genes;
 
-import Filters.Filter;
-import Filters.HighPathFilter;
-import Filters.LowPathFilter;
+import filters.Filter;
+import filters.HighPassFilter;
+import filters.LowPassFilter;
 
 import java.util.Random;
 
@@ -99,10 +99,10 @@ public class Gene {
         int typeFilter = new Random().nextInt(2);
         switch (typeFilter){
             case 0:
-                gene=new Gene(new LowPathFilter().createRandomFilter());
+                gene = new Gene(new LowPassFilter().createRandomFilter());
                 break;
             case 1:
-                gene = new Gene(new HighPathFilter().createRandomFilter());
+                gene = new Gene(new HighPassFilter().createRandomFilter());
                 break;
             default:
                 break;
