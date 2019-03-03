@@ -27,8 +27,9 @@ public class LowPassFilter extends Filter {
 
     @Override
     public String getTransferFunction() {
-        return String.format("%a/(%ts+1)", amplifier, timeConstant);
+        return amplifier + "/" + "(" + timeConstant + "s+" + 1 + ")";
     }
+
 
     @Override
     protected double getAbsoluteValue(int omega) throws Exception {
