@@ -1,6 +1,6 @@
-import GA.Evolution;
 import Genes.GeneSetList;
 import Input.TextReader;
+import geneticAlgorithm.Evolution;
 
 public class Main {
     private final static String PATH = "C:\\Users\\shyrokoa\\crisisTest\\src\\main\\java\\Input\\coordinate5.txt";
