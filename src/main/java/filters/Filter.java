@@ -14,6 +14,11 @@ import static java.lang.Math.pow;
 
 public abstract class Filter {
 
+    final int MIN_OMEGA_POWER_OF_10_ = -10;
+    final int MAX_OMEGA_POWER_OF_10 = 10;
+    final int QUANTITY_OF_CUTOFF_FREQUENCIES = 21;
+    final int FILTER_PARAMETERS_QUANTITY = 3;
+
     /**
      * Private field storing magnitudes
      */
@@ -72,9 +77,6 @@ public abstract class Filter {
         return this.magnitudeCoordinate;
     }
 
-    public double[] getCutoffFrequencyCoordinate() {
-        return this.cutoffFrequencyCoordinate;
-    }
 
     /**
      * This method calculates an array of magnitudes using information
@@ -83,7 +85,7 @@ public abstract class Filter {
     void calculateMagnitudePlot() throws Exception {
         double[] magnitudeCoordinate = new double[21];
         double[] cutoffFrequencyCoordinate = new double[21];
-        for (int i = -10; i < 11; i++) {
+        for (int i = MIN_OMEGA_POWER_OF_10_; i < MAX_OMEGA_POWER_OF_10 + 1; i++) {
             try {
                 getAmplitudeRatio(i);
             } catch (Exception e) {
@@ -98,7 +100,7 @@ public abstract class Filter {
 
     ArrayList<Double> getCutoffFrequency() {
         ArrayList<Double> cutoffFrequency = new ArrayList<>();
-        for (int i = -10; i < 11; i++) {
+        for (int i = MIN_OMEGA_POWER_OF_10_; i < MAX_OMEGA_POWER_OF_10 + 1; i++) {
             cutoffFrequency.add(1 / pow(10, i));
         }
         return cutoffFrequency;
