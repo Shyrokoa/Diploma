@@ -39,13 +39,13 @@ public class Chromosome {
 
         switch (type) {
             case 0:
-                this.filter.recombination(filterPattern);
+                this.filter.transferFunctionRecombination(filterPattern);
                 break;
             case 1:
                 this.filter.mutateFilterTransferFunction();
                 break;
             case 2:
-                this.filter.recombination(filterPattern);
+                this.filter.transferFunctionRecombination(filterPattern);
                 this.filter.mutateFilterTransferFunction();
                 break;
             default:

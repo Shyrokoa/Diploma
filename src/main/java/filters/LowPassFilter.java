@@ -7,13 +7,12 @@ import static java.lang.Math.*;
 
 public class LowPassFilter extends Filter {
 
-    private final int LOW_PASS_FILTER_KEY = 0;
     private double amplifier;
     private String transferFunction;
     private double timeConstant;
     private ArrayList<Double> cutoffFrequency;
 
-    public LowPassFilter(double amplifier, double timeConstant) throws Exception {
+    private LowPassFilter(double amplifier, double timeConstant) throws Exception {
         cutoffFrequency = getCutoffFrequency();
         this.amplifier = amplifier;
         this.timeConstant = timeConstant;
@@ -27,27 +26,30 @@ public class LowPassFilter extends Filter {
 
     @Override
     public String getTransferFunction() {
-        return amplifier + "/" + "(" + timeConstant + "s+" + 1 + ")";
+        transferFunction = amplifier + "/" + "(" + timeConstant + "s+" + 1 + ")";
+        return transferFunction;
     }
 
 
     @Override
-    protected double getAbsoluteValue(int omega) throws Exception {
-        if (omega < -10) throw new Exception("The number is less than 10^-10, current value: " + pow(10, omega));
-        if (omega > 10) throw new Exception("The number is more than 10^10,  current value: " + pow(10, omega));
+    protected double getAbsoluteValue(int omegasExponentOfBase10) throws Exception {
+        if (omegasExponentOfBase10 < MIN_OMEGA_POWER_OF_10_)
+            throw new Exception("The number is less than 10^-10, current value: " + pow(10, omegasExponentOfBase10));
+        if (omegasExponentOfBase10 > MAX_OMEGA_POWER_OF_10)
+            throw new Exception("The number is more than 10^10,  current value: " + pow(10, omegasExponentOfBase10));
         double numerator = amplifier;
-        double denominator = sqrt(1 + pow(pow(10, omega), 2) * pow(timeConstant, 2));
+        double denominator = sqrt(1 + pow(pow(10, omegasExponentOfBase10), 2) * pow(timeConstant, 2));
         return numerator / denominator;
     }
 
     @Override
-    protected double getAmplitudeRatio(int omega) throws Exception {
-        return 20 * log10(getAbsoluteValue(omega));
+    protected double getAmplitudeRatio(int omegasExponentOfBase10) throws Exception {
+        return 20 * log10(getAbsoluteValue(omegasExponentOfBase10));
     }
 
     @Override
     public Filter createRandomFilter() throws Exception {
-        timeConstant = getCutoffFrequency().get(new Random().nextInt(21));
+        timeConstant = getCutoffFrequency().get(new Random().nextInt(QUANTITY_OF_CUTOFF_FREQUENCIES));
         amplifier = new Random().nextInt(2) + 1;
         return new LowPassFilter(amplifier, timeConstant);
     }
@@ -55,13 +57,14 @@ public class LowPassFilter extends Filter {
     @Override
     public void mutateFilterTransferFunction() throws Exception {
         cutoffFrequency = getCutoffFrequency();
-        int LPFMutationPosition = new Random().nextInt(2);
+        int FILTER_PARAMETERS_QUANTITY = 2;
+        int LPFMutationPosition = new Random().nextInt(FILTER_PARAMETERS_QUANTITY);
         switch (LPFMutationPosition) {
             case 0:
                 amplifier = new Random().nextInt(2) + 1;
                 break;
             case 1:
-                timeConstant = cutoffFrequency.get(new Random().nextInt(21));
+                timeConstant = cutoffFrequency.get(new Random().nextInt(QUANTITY_OF_CUTOFF_FREQUENCIES));
                 break;
             default:
                 break;
@@ -71,10 +74,10 @@ public class LowPassFilter extends Filter {
     }
 
     @Override
-    public void recombination(Filter filter) throws Exception {
+    public void transferFunctionRecombination(Filter filter) throws Exception {
         cutoffFrequency = getCutoffFrequency();
-        int LPFRecombinationPosition = new Random().nextInt(2);
-        switch (LPFRecombinationPosition) {
+        int typeOfRecombination = new Random().nextInt(2);
+        switch (typeOfRecombination) {
             case 0:
                 if (filter.getFilterKey() == 1) {
                     amplifier = new Random().nextInt(1) + 1;
@@ -100,9 +103,12 @@ public class LowPassFilter extends Filter {
         calculateMagnitudePlot();
     }
 
+    /**
+     * The Low Pass Filter has key 0.
+     */
     @Override
     public int getFilterKey() {
-        return this.LOW_PASS_FILTER_KEY;
+        return 0;
     }
 
     @Override
