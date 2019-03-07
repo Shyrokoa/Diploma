@@ -7,13 +7,11 @@ import static java.lang.Math.*;
 
 public class HighPassFilter extends Filter {
 
-
-    private final int HIGH_PASS_FILTER_KEY = 1;
     private String transferFunction;
     private double timeConstant;
     private ArrayList<Double> cutoffFrequency;
 
-    public HighPassFilter(double timeConstant) throws Exception {
+    private HighPassFilter(double timeConstant) throws Exception {
         cutoffFrequency = getCutoffFrequency();
         this.timeConstant = timeConstant;
         transferFunction = getTransferFunction();
@@ -55,7 +53,8 @@ public class HighPassFilter extends Filter {
     @Override
     public void mutateFilterTransferFunction() throws Exception {
         cutoffFrequency = getCutoffFrequency();
-        int HPFMutationPosition = new Random().nextInt(FILTER_PARAMETERS_QUANTITY - 1);
+        int FILTER_PARAMETERS_QUANTITY = 2;
+        int HPFMutationPosition = new Random().nextInt(FILTER_PARAMETERS_QUANTITY);
         switch (HPFMutationPosition) {
             case 0:
                 break;
@@ -68,9 +67,9 @@ public class HighPassFilter extends Filter {
     }
 
     @Override
-    public void recombination(Filter filter) throws Exception {
-        int HPFRecombinationPosition = new Random().nextInt(3);
-        switch (HPFRecombinationPosition) {
+    public void transferFunctionRecombination(Filter filter) throws Exception {
+        int typeOfRecombination = new Random().nextInt(3);
+        switch (typeOfRecombination) {
             case 0:
                 break;
             case 1:
@@ -88,14 +87,16 @@ public class HighPassFilter extends Filter {
             default:
                 break;
         }
-        cutoffFrequency = getCutoffFrequency();
         transferFunction = getTransferFunction();
         calculateMagnitudePlot();
     }
 
+    /**
+     * The High Pass Filter has key 1.
+     */
     @Override
     public int getFilterKey() {
-        return this.HIGH_PASS_FILTER_KEY;
+        return 1;
     }
 
     @Override

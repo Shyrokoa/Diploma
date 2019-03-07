@@ -7,13 +7,12 @@ import static java.lang.Math.*;
 
 public class LowPassFilter extends Filter {
 
-    private final int LOW_PASS_FILTER_KEY = 0;
     private double amplifier;
     private String transferFunction;
     private double timeConstant;
     private ArrayList<Double> cutoffFrequency;
 
-    public LowPassFilter(double amplifier, double timeConstant) throws Exception {
+    private LowPassFilter(double amplifier, double timeConstant) throws Exception {
         cutoffFrequency = getCutoffFrequency();
         this.amplifier = amplifier;
         this.timeConstant = timeConstant;
@@ -58,7 +57,8 @@ public class LowPassFilter extends Filter {
     @Override
     public void mutateFilterTransferFunction() throws Exception {
         cutoffFrequency = getCutoffFrequency();
-        int LPFMutationPosition = new Random().nextInt(FILTER_PARAMETERS_QUANTITY - 1);
+        int FILTER_PARAMETERS_QUANTITY = 2;
+        int LPFMutationPosition = new Random().nextInt(FILTER_PARAMETERS_QUANTITY);
         switch (LPFMutationPosition) {
             case 0:
                 amplifier = new Random().nextInt(2) + 1;
@@ -74,10 +74,10 @@ public class LowPassFilter extends Filter {
     }
 
     @Override
-    public void recombination(Filter filter) throws Exception {
+    public void transferFunctionRecombination(Filter filter) throws Exception {
         cutoffFrequency = getCutoffFrequency();
-        int LPFRecombinationPosition = new Random().nextInt(2);
-        switch (LPFRecombinationPosition) {
+        int typeOfRecombination = new Random().nextInt(2);
+        switch (typeOfRecombination) {
             case 0:
                 if (filter.getFilterKey() == 1) {
                     amplifier = new Random().nextInt(1) + 1;
@@ -103,9 +103,12 @@ public class LowPassFilter extends Filter {
         calculateMagnitudePlot();
     }
 
+    /**
+     * The Low Pass Filter has key 0.
+     */
     @Override
     public int getFilterKey() {
-        return this.LOW_PASS_FILTER_KEY;
+        return 0;
     }
 
     @Override

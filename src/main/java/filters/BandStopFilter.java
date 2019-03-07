@@ -8,15 +8,13 @@ import static java.lang.Math.*;
 
 public class BandStopFilter extends Filter {
 
-    private final int BAND_STOP_FILTER_KEY = 3;
     private double LPFAmplifier;
     private double LPFTimeConstant;
     private double HPFTimeConstant;
     private String BSFTransferFunction;
     private ArrayList<Double> cutoffFrequency;
 
-
-    public BandStopFilter(double LPFAmplifier, double LPFTimeConstant, double HPFTimeConstant) throws Exception {
+    private BandStopFilter(double LPFAmplifier, double LPFTimeConstant, double HPFTimeConstant) throws Exception {
         cutoffFrequency = getCutoffFrequency();
         this.LPFAmplifier = LPFAmplifier;
         this.LPFTimeConstant = LPFTimeConstant;
@@ -28,7 +26,6 @@ public class BandStopFilter extends Filter {
     public BandStopFilter() {
         cutoffFrequency = getCutoffFrequency();
     }
-
 
     @Override
     public String getTransferFunction() {
@@ -57,7 +54,7 @@ public class BandStopFilter extends Filter {
     @Override
     public Filter createRandomFilter() throws Exception {
         cutoffFrequency = getCutoffFrequency();
-        LPFAmplifier = new Random().nextInt(2) + 1;
+        LPFAmplifier = new Random().nextInt(1) + 1;
         LPFTimeConstant = cutoffFrequency.get(new Random().nextInt(QUANTITY_OF_CUTOFF_FREQUENCIES));
         HPFTimeConstant = cutoffFrequency.get(new Random().nextInt(QUANTITY_OF_CUTOFF_FREQUENCIES));
         return new BandStopFilter(LPFAmplifier, LPFTimeConstant, HPFTimeConstant);
@@ -66,6 +63,7 @@ public class BandStopFilter extends Filter {
     @Override
     public void mutateFilterTransferFunction() throws Exception {
         cutoffFrequency = getCutoffFrequency();
+        int FILTER_PARAMETERS_QUANTITY = 3;
         int BPFMutationPosition = new Random().nextInt(FILTER_PARAMETERS_QUANTITY);
         switch (BPFMutationPosition) {
             case 0:
@@ -85,9 +83,9 @@ public class BandStopFilter extends Filter {
     }
 
     @Override
-    public void recombination(Filter filter) throws Exception {
-        int BSFRecombinationPosition = new Random().nextInt(FILTER_PARAMETERS_QUANTITY);
-        switch (BSFRecombinationPosition) {
+    public void transferFunctionRecombination(Filter filter) throws Exception {
+        int typeOfRecombination = new Random().nextInt(3);
+        switch (typeOfRecombination) {
             case 0:
                 if (filter.getFilterKey() != 0) {
                     LPFTimeConstant = filter.getHPFTimeConstant();
@@ -122,14 +120,16 @@ public class BandStopFilter extends Filter {
             default:
                 break;
         }
-        cutoffFrequency = getCutoffFrequency();
         BSFTransferFunction = getTransferFunction();
         calculateMagnitudePlot();
     }
 
+    /**
+     * The Band Stop Filter has key 3.
+     */
     @Override
     public int getFilterKey() {
-        return this.BAND_STOP_FILTER_KEY;
+        return 3;
     }
 
     @Override

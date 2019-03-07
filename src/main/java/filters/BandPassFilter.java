@@ -7,14 +7,13 @@ import static java.lang.Math.*;
 
 public class BandPassFilter extends Filter {
 
-    private final int BAND_PASS_FILTER_KEY = 2;
     private double LPFAmplifier;
     private double LPFTimeConstant;
     private double HPFTimeConstant;
     private String BPFTransferFunction;
     private ArrayList<Double> cutoffFrequency;
 
-    public BandPassFilter(double LPFAmplifier, double LPFTimeConstant, double HPFTimeConstant) throws Exception {
+    private BandPassFilter(double LPFAmplifier, double LPFTimeConstant, double HPFTimeConstant) throws Exception {
         cutoffFrequency = getCutoffFrequency();
         this.LPFAmplifier = LPFAmplifier;
         this.LPFTimeConstant = LPFTimeConstant;
@@ -63,13 +62,14 @@ public class BandPassFilter extends Filter {
     @Override
     public void mutateFilterTransferFunction() throws Exception {
         cutoffFrequency = getCutoffFrequency();
-        int BPFRecombinationPosition = new Random().nextInt(3);
+        int FILTER_PARAMETERS_QUANTITY = 3;
+        int BPFRecombinationPosition = new Random().nextInt(FILTER_PARAMETERS_QUANTITY);
         switch (BPFRecombinationPosition) {
             case 0:
                 LPFTimeConstant = cutoffFrequency.get(new Random().nextInt(QUANTITY_OF_CUTOFF_FREQUENCIES));
                 break;
             case 1:
-                LPFAmplifier = new Random().nextInt(2) + 1;
+                LPFAmplifier = new Random().nextInt(1) + 1;
                 break;
             case 2:
                 HPFTimeConstant = cutoffFrequency.get(new Random().nextInt(QUANTITY_OF_CUTOFF_FREQUENCIES));
@@ -82,10 +82,10 @@ public class BandPassFilter extends Filter {
     }
 
     @Override
-    public void recombination(Filter filter) throws Exception {
+    public void transferFunctionRecombination(Filter filter) throws Exception {
         cutoffFrequency = getCutoffFrequency();
-        int BPFRecombinationPosition = new Random().nextInt(3);
-        switch (BPFRecombinationPosition) {
+        int typeOfRecombination = new Random().nextInt(3);
+        switch (typeOfRecombination) {
             case 0:
                 if (filter.getFilterKey() != 0) {
                     LPFTimeConstant = filter.getHPFTimeConstant();
@@ -108,14 +108,16 @@ public class BandPassFilter extends Filter {
             default:
                 break;
         }
-        //cutoffFrequency=getCutoffFrequency();
         BPFTransferFunction = getTransferFunction();
         calculateMagnitudePlot();
     }
 
+    /**
+     * The Band Pass Filter has key 2.
+     */
     @Override
     public int getFilterKey() {
-        return this.BAND_PASS_FILTER_KEY;
+        return 2;
     }
 
     @Override
