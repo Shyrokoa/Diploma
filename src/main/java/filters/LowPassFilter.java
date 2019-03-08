@@ -79,28 +79,36 @@ public class LowPassFilter extends Filter {
         int typeOfRecombination = new Random().nextInt(2);
         switch (typeOfRecombination) {
             case 0:
-                if (filter.getFilterKey() == 1) {
-                    amplifier = new Random().nextInt(1) + 1;
-                } else {
-                    amplifier = filter.getLPFAmplifier();
-                }
+                firstTypeOfLPFRecombination(filter);
                 break;
             case 1:
-                if (filter.getFilterKey() == 0) {
-                    timeConstant = filter.getLPFTimeConstant();
-                } else if (filter.getFilterKey() == 1) {
-                    timeConstant = filter.getHPFTimeConstant();
-                } else if (filter.getFilterKey() == 2) {
-                    timeConstant = filter.getLPFTimeConstant();
-                } else if (filter.getFilterKey() == 3) {
-                    timeConstant = filter.getLPFTimeConstant();
-                }
+                secondTypeOfLPFRecombination(filter);
                 break;
             default:
                 break;
         }
         transferFunction = getTransferFunction();
         calculateMagnitudePlot();
+    }
+
+    private void firstTypeOfLPFRecombination(Filter filter) {
+        if (filter.getFilterKey() == 1) {
+            amplifier = new Random().nextInt(1) + 1;
+        } else {
+            amplifier = filter.getLPFAmplifier();
+        }
+    }
+
+    private void secondTypeOfLPFRecombination(Filter filter) {
+        if (filter.getFilterKey() == 0) {
+            timeConstant = filter.getLPFTimeConstant();
+        } else if (filter.getFilterKey() == 1) {
+            timeConstant = filter.getHPFTimeConstant();
+        } else if (filter.getFilterKey() == 2) {
+            timeConstant = filter.getLPFTimeConstant();
+        } else if (filter.getFilterKey() == 3) {
+            timeConstant = filter.getLPFTimeConstant();
+        }
     }
 
     /**
