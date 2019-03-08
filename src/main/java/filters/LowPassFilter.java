@@ -30,7 +30,6 @@ public class LowPassFilter extends Filter {
         return transferFunction;
     }
 
-
     @Override
     protected double getAbsoluteValue(int omegasExponentOfBase10) throws Exception {
         if (omegasExponentOfBase10 < MIN_OMEGA_POWER_OF_10_)
