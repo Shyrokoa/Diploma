@@ -21,7 +21,7 @@ public class ChromosomeSetList {
     public ChromosomeSetList(ArrayList<ChromosomeSet> listOfChromosomeSet, TextReader textReader) {
         this.listSize = listOfChromosomeSet.size();
         this.listOfChromosomeSet = listOfChromosomeSet;
-        this.chromosomeSetSize = listOfChromosomeSet.get(0).getListOfChromosomeSet().size();
+        this.chromosomeSetSize = listOfChromosomeSet.get(0).getPopulationOfChromosomeSets().size();
         this.textReader = textReader;
     }
 
@@ -35,29 +35,45 @@ public class ChromosomeSetList {
 
     public ChromosomeSetList chromosomeSetListRecombination() throws Exception {
         int listSize = getListSize();
-        int setSize = getChromosomeSetSize();
         ChromosomeSet winnerSet = listOfChromosomeSet.get(0);
 
         if (listSize < 3) {
-            for (int i = 1; i < listSize; i++) {
-                ChromosomeSet chromosomeSet = listOfChromosomeSet.get(i);
-                chromosomeSet.chromosomeSetRecombination(winnerSet);
-                setChromosomeSet(chromosomeSet, i);
-            }
-        } else if (listSize >= 3) {
-            int newInjection = (int) Math.round(0.20 * listSize);
-            for (int i = 1; i < listSize - newInjection; i++) {
-                ChromosomeSet chromosomeSet = listOfChromosomeSet.get(i);
-                chromosomeSet.chromosomeSetRecombination(winnerSet);
-                setChromosomeSet(chromosomeSet, i);
-            }
-            for (int i = listSize - newInjection; i < listSize; i++) {
-                ChromosomeSet newChromosomeSet = new ChromosomeSet(setSize, textReader);
-                newChromosomeSet.chromosomeSetRecombination(winnerSet);
-                setChromosomeSet(newChromosomeSet, i);
-            }
+            readAndRecombinationSmallChromosomeSet(winnerSet);
+        } else {
+            readAndRecombinationLargeChromosomeSet(winnerSet);
         }
         return new ChromosomeSetList(listOfChromosomeSet, textReader);
+    }
+
+    private void readAndRecombinationSmallChromosomeSet(ChromosomeSet winnerSet) throws Exception {
+        for (int i = 1; i < listSize; i++) {
+            ChromosomeSet chromosomeSet = listOfChromosomeSet.get(i);
+            chromosomeSet.chromosomeSetRecombination(winnerSet);
+            setChromosomeSet(chromosomeSet, i);
+        }
+    }
+
+    private void readAndRecombinationLargeChromosomeSet(ChromosomeSet winnerSet) throws Exception {
+        double INJECTION_PERCENTAGE = 0.2;
+        int newInjection = (int) Math.round(INJECTION_PERCENTAGE * listSize);
+        for (int i = 1; i < listSize - newInjection; i++) {
+            readAndRecombinationSurvivorsChromosomeSet(i, winnerSet);
+        }
+        for (int i = listSize - newInjection; i < listSize; i++) {
+            readAndRecombinationInjectionChromosomeSet(i, winnerSet);
+        }
+    }
+
+    private void readAndRecombinationSurvivorsChromosomeSet(int i, ChromosomeSet winnerSet) throws Exception {
+        ChromosomeSet chromosomeSet = listOfChromosomeSet.get(i);
+        chromosomeSet.chromosomeSetRecombination(winnerSet);
+        setChromosomeSet(chromosomeSet, i);
+    }
+
+    private void readAndRecombinationInjectionChromosomeSet(int i, ChromosomeSet winnerSet) throws Exception {
+        ChromosomeSet newChromosomeSet = new ChromosomeSet(winnerSet.getPopulationOfChromosomeSets().size(), textReader);
+        newChromosomeSet.chromosomeSetRecombination(winnerSet);
+        setChromosomeSet(newChromosomeSet, i);
     }
 
     public ArrayList<ChromosomeSet> getListOfChromosomeSet() {
@@ -71,9 +87,5 @@ public class ChromosomeSetList {
 
     private int getListSize() {
         return listSize;
-    }
-
-    private int getChromosomeSetSize() {
-        return chromosomeSetSize;
     }
 }

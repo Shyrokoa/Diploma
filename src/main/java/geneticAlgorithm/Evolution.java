@@ -43,22 +43,22 @@ public class Evolution {
         determinationOfTheWinners();
         loserGenesTransformation();
 
-        if (chromosomeSetArrayList.get(0).getFitness() < MAX_ERROR) {
-            for (int i = 0; i < chromosomeSetArrayList.get(0).getListOfChromosomeSet().size(); i++) {
-                System.out.println(chromosomeSetArrayList.get(0).getListOfChromosomeSet().get(i).getFilter().getTransferFunction());
+        if (chromosomeSetArrayList.get(0).getValueOfTheFitnessFunction() < MAX_ERROR) {
+            for (int i = 0; i < chromosomeSetArrayList.get(0).getPopulationOfChromosomeSets().size(); i++) {
+                System.out.println(chromosomeSetArrayList.get(0).getPopulationOfChromosomeSets().get(i).getFilter().getTransferFunction());
             }
-            System.out.println("Fitness: " + chromosomeSetArrayList.get(0).getFitness());
+            System.out.println("Fitness: " + chromosomeSetArrayList.get(0).getValueOfTheFitnessFunction());
         } else {
             System.out.println("EVOLUTION for " + population + " population");
             this.chromosomeSetArrayList = sortListOfChromosomeSet();
             for (int i = 0; i < 1; i++) {
-                for (int j = 0; j < chromosomeSetArrayList.get(i).getListOfChromosomeSet().size(); j++) {
+                for (int j = 0; j < chromosomeSetArrayList.get(i).getPopulationOfChromosomeSets().size(); j++) {
 
-                    System.out.print(chromosomeSetArrayList.get(i).getListOfChromosomeSet().get(j).getFilter().getTransferFunction() + " --> ");
+                    System.out.print(chromosomeSetArrayList.get(i).getPopulationOfChromosomeSets().get(j).getFilter().getTransferFunction() + " --> ");
                 }
                 chromosomeSetArrayList.get(i).calculateChromosomeSetFitness();
                 System.out.println();
-                System.out.println(getChromosomeSetArrayList().get(i).getFitness());
+                System.out.println(getChromosomeSetArrayList().get(i).getValueOfTheFitnessFunction());
             }
             evolution();
         }

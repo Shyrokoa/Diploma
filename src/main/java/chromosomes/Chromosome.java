@@ -6,16 +6,15 @@ import java.util.Random;
 
 public class Chromosome {
 
-    private double[] Magnitude;
+    private double[] magnitude;
     private Filter filter;
-
-
+    
     Chromosome() {
     }
 
     void generateRandomChromosome() throws Exception {
-        int typeFilter = new Random().nextInt(4);
-        switch (typeFilter) {
+        int filterTypeKey = new Random().nextInt(4);
+        switch (filterTypeKey) {
             case 0:
                 filter = new LowPassFilter().createRandomFilter();
                 break;
@@ -31,13 +30,13 @@ public class Chromosome {
             default:
                 break;
         }
-        Magnitude = filter.getMagnitudeCoordinate();
+        magnitude = filter.getMagnitudeCoordinate();
     }
 
     void chromosomeRecombination(Filter filterPattern) throws Exception {
-        int type = new Random().nextInt(3);
+        int typeOfChromosomeRecombination = new Random().nextInt(3);
 
-        switch (type) {
+        switch (typeOfChromosomeRecombination) {
             case 0:
                 this.filter.transferFunctionRecombination(filterPattern);
                 break;
@@ -51,11 +50,11 @@ public class Chromosome {
             default:
                 break;
         }
-        Magnitude = filter.getMagnitudeCoordinate();
+        magnitude = filter.getMagnitudeCoordinate();
     }
 
     double[] getMagnitude() {
-        return Magnitude;
+        return magnitude;
     }
 
     public Filter getFilter() {
