@@ -5,15 +5,13 @@ import chromosomes.ChromosomeSetList;
 import textReader.TextReader;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Evolution {
 
-    private final static int MAX_ERROR = 50;
+    private final static int MAX_ERROR_DECIBEL = 50;
     private ArrayList<ChromosomeSet> chromosomeSetArrayList;
     private TextReader textReader;
     private static int population;
-
 
     public Evolution(ChromosomeSetList chromosomeSetList, TextReader textReader) {
         this.chromosomeSetArrayList = chromosomeSetList.getListOfChromosomeSet();
@@ -21,14 +19,14 @@ public class Evolution {
         population = 0;
     }
 
-    public void determinationOfTheWinners() {
+    private void determinationOfTheWinners() {
         population++;
         this.chromosomeSetArrayList = sortListOfChromosomeSet();
         System.out.println("POPULATION " + (population) + " -->");
     }
 
     private ArrayList<ChromosomeSet> sortListOfChromosomeSet() {
-        Collections.sort(chromosomeSetArrayList, ChromosomeSet.fitnessComparator);
+        chromosomeSetArrayList.sort(ChromosomeSet.fitnessComparator);
         return chromosomeSetArrayList;
     }
 
@@ -38,33 +36,55 @@ public class Evolution {
         this.chromosomeSetArrayList = chromosomeSetList1.getListOfChromosomeSet();
     }
 
-
     public void evolution() throws Exception {
         determinationOfTheWinners();
         loserGenesTransformation();
+        evolutionProcessCheck();
+    }
 
-        if (chromosomeSetArrayList.get(0).getValueOfTheFitnessFunction() < MAX_ERROR) {
-            for (int i = 0; i < chromosomeSetArrayList.get(0).getPopulationOfChromosomeSets().size(); i++) {
-                System.out.println(chromosomeSetArrayList.get(0).getPopulationOfChromosomeSets().get(i).getFilter().getTransferFunction());
-            }
-            System.out.println("Fitness: " + chromosomeSetArrayList.get(0).getValueOfTheFitnessFunction());
+    private void evolutionProcessCheck() throws Exception {
+        if (chromosomeSetArrayList.get(0).getValueOfTheFitnessFunction() < MAX_ERROR_DECIBEL) {
+            getEvolutionResult();
         } else {
-            System.out.println("EVOLUTION for " + population + " population");
-            this.chromosomeSetArrayList = sortListOfChromosomeSet();
-            for (int i = 0; i < 1; i++) {
-                for (int j = 0; j < chromosomeSetArrayList.get(i).getPopulationOfChromosomeSets().size(); j++) {
-
-                    System.out.print(chromosomeSetArrayList.get(i).getPopulationOfChromosomeSets().get(j).getFilter().getTransferFunction() + " --> ");
-                }
-                chromosomeSetArrayList.get(i).calculateChromosomeSetFitness();
-                System.out.println();
-                System.out.println(getChromosomeSetArrayList().get(i).getValueOfTheFitnessFunction());
-            }
+            continueEvolution();
             evolution();
         }
     }
 
-    public ArrayList<ChromosomeSet> getChromosomeSetArrayList() {
+    private void getEvolutionResult() {
+        printWinnerChromosomeSet();
+        System.out.println("Fitness: " + chromosomeSetArrayList.get(0).getValueOfTheFitnessFunction());
+    }
+
+    private void continueEvolution() {
+        System.out.println("EVOLUTION for " + population + " population");
+        this.chromosomeSetArrayList = sortListOfChromosomeSet();
+        for (int i = 0; i < 1; i++) {
+            printChromosomeSet(i);
+            calculateAndPrintChromosomeSetFitness(i);
+        }
+    }
+
+    private void calculateAndPrintChromosomeSetFitness(int chromosomeSetIndex) {
+        chromosomeSetArrayList.get(chromosomeSetIndex).calculateChromosomeSetFitness();
+        System.out.println();
+        System.out.println(getChromosomeSetArrayList().get(chromosomeSetIndex).getValueOfTheFitnessFunction());
+    }
+
+    private void printChromosomeSet(int chromosomeSetIndex) {
+        for (int chromosomeIndex = 0; chromosomeIndex < chromosomeSetArrayList.get(chromosomeSetIndex).getPopulationOfChromosomeSets().size(); chromosomeIndex++) {
+
+            System.out.print(chromosomeSetArrayList.get(chromosomeSetIndex).getPopulationOfChromosomeSets().get(chromosomeIndex).getFilter().getTransferFunction() + " --> ");
+        }
+    }
+
+    private void printWinnerChromosomeSet() {
+        for (int i = 0; i < chromosomeSetArrayList.get(0).getPopulationOfChromosomeSets().size(); i++) {
+            System.out.println(chromosomeSetArrayList.get(0).getPopulationOfChromosomeSets().get(i).getFilter().getTransferFunction());
+        }
+    }
+
+    private ArrayList<ChromosomeSet> getChromosomeSetArrayList() {
         return chromosomeSetArrayList;
     }
 }
