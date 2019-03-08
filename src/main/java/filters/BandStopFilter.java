@@ -29,9 +29,9 @@ public class BandStopFilter extends Filter {
 
     @Override
     public String getTransferFunction() {
-        String num = "(" + HPFTimeConstant + "*s(" + LPFTimeConstant + "*s+1)+" + LPFAmplifier + "(" + HPFTimeConstant + "*s+1))";
-        String denum = "((" + HPFTimeConstant + "*s+1)(" + LPFTimeConstant + "*s+1))";
-        BSFTransferFunction = num + "/" + denum;
+        String numerator = "(" + HPFTimeConstant + "*s(" + LPFTimeConstant + "*s+1)+" + LPFAmplifier + "(" + HPFTimeConstant + "*s+1))";
+        String denominator = "((" + HPFTimeConstant + "*s+1)(" + LPFTimeConstant + "*s+1))";
+        BSFTransferFunction = numerator + "/" + denominator;
         return BSFTransferFunction;
     }
 
@@ -87,41 +87,52 @@ public class BandStopFilter extends Filter {
         int typeOfRecombination = new Random().nextInt(3);
         switch (typeOfRecombination) {
             case 0:
-                if (filter.getFilterKey() != 0) {
-                    LPFTimeConstant = filter.getHPFTimeConstant();
-                } else {
-                    LPFTimeConstant = filter.getLPFTimeConstant();
-                }
-
+                firstTypeOfBSFRecombination(filter);
                 break;
             case 1:
-                if (filter.getFilterKey() != 1) {
-                    if (filter.getFilterKey() == 0) {
-                        HPFTimeConstant = filter.getLPFTimeConstant();
-                    } else {
-                        HPFTimeConstant = filter.getHPFTimeConstant();
-                        LPFAmplifier = filter.getLPFAmplifier();
-                    }
-
-                } else {
-                    HPFTimeConstant = filter.getHPFTimeConstant();
-                }
+                secondTypeOfBSFRecombination(filter);
                 break;
             case 2:
-                if (filter.getFilterKey() != 1) {
-                    if (filter.getFilterKey() == 0) {
-                        LPFAmplifier = filter.getLPFAmplifier();
-                    } else {
-                        LPFAmplifier = filter.getLPFAmplifier();
-                        LPFTimeConstant = filter.getHPFTimeConstant();
-                    }
-                }
+                thirdTypeOfBSFRecombination(filter);
                 break;
             default:
                 break;
         }
         BSFTransferFunction = getTransferFunction();
         calculateMagnitudePlot();
+    }
+
+    private void firstTypeOfBSFRecombination(Filter filter) {
+        if (filter.getFilterKey() != 0) {
+            LPFTimeConstant = filter.getHPFTimeConstant();
+        } else {
+            LPFTimeConstant = filter.getLPFTimeConstant();
+        }
+    }
+
+    private void secondTypeOfBSFRecombination(Filter filter) {
+        if (filter.getFilterKey() != 1) {
+            if (filter.getFilterKey() == 0) {
+                HPFTimeConstant = filter.getLPFTimeConstant();
+            } else {
+                HPFTimeConstant = filter.getHPFTimeConstant();
+                LPFAmplifier = filter.getLPFAmplifier();
+            }
+
+        } else {
+            HPFTimeConstant = filter.getHPFTimeConstant();
+        }
+    }
+
+    private void thirdTypeOfBSFRecombination(Filter filter) {
+        if (filter.getFilterKey() != 1) {
+            if (filter.getFilterKey() == 0) {
+                LPFAmplifier = filter.getLPFAmplifier();
+            } else {
+                LPFAmplifier = filter.getLPFAmplifier();
+                LPFTimeConstant = filter.getHPFTimeConstant();
+            }
+        }
     }
 
     /**

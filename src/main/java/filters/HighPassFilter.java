@@ -70,25 +70,31 @@ public class HighPassFilter extends Filter {
     public void transferFunctionRecombination(Filter filter) throws Exception {
         int typeOfRecombination = new Random().nextInt(3);
         switch (typeOfRecombination) {
-            case 0:
-                break;
             case 1:
-                if (filter.getFilterKey() == 1) {
-                    timeConstant = filter.getHPFTimeConstant();
-                } else
-                    timeConstant = filter.getLPFTimeConstant();
+                firstTypeOfHPFRecombination(filter);
                 break;
             case 2:
-                if (filter.getFilterKey() == 1) {
-                    timeConstant = filter.getHPFTimeConstant();
-                } else
-                    timeConstant = filter.getLPFTimeConstant();
+                secondTypeOfHPFRecombination(filter);
                 break;
             default:
                 break;
         }
         transferFunction = getTransferFunction();
         calculateMagnitudePlot();
+    }
+
+    private void firstTypeOfHPFRecombination(Filter filter) {
+        if (filter.getFilterKey() == 1) {
+            timeConstant = filter.getHPFTimeConstant();
+        } else
+            timeConstant = filter.getLPFTimeConstant();
+    }
+
+    private void secondTypeOfHPFRecombination(Filter filter) {
+        if (filter.getFilterKey() == 1) {
+            timeConstant = filter.getHPFTimeConstant();
+        } else
+            timeConstant = filter.getLPFTimeConstant();
     }
 
     /**

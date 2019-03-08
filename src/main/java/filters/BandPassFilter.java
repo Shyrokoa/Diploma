@@ -87,29 +87,41 @@ public class BandPassFilter extends Filter {
         int typeOfRecombination = new Random().nextInt(3);
         switch (typeOfRecombination) {
             case 0:
-                if (filter.getFilterKey() != 0) {
-                    LPFTimeConstant = filter.getHPFTimeConstant();
-                } else {
-                    LPFTimeConstant = filter.getLPFTimeConstant();
-                }
+                firstTypeOfBPFRecombination(filter);
                 break;
             case 1:
-                if (filter.getFilterKey() != 1) {
-                    HPFTimeConstant = filter.getLPFTimeConstant();
-                } else {
-                    HPFTimeConstant = filter.getHPFTimeConstant();
-                }
+                secondTypeOfBPFRecombination(filter);
                 break;
             case 2:
-                if (filter.getFilterKey() != 1) {
-                    LPFAmplifier = filter.getLPFAmplifier();
-                }
+                thirdTypeOfBPFRecombination(filter);
                 break;
             default:
                 break;
         }
         BPFTransferFunction = getTransferFunction();
         calculateMagnitudePlot();
+    }
+
+    private void firstTypeOfBPFRecombination(Filter filter) {
+        if (filter.getFilterKey() != 0) {
+            LPFTimeConstant = filter.getHPFTimeConstant();
+        } else {
+            LPFTimeConstant = filter.getLPFTimeConstant();
+        }
+    }
+
+    private void secondTypeOfBPFRecombination(Filter filter) {
+        if (filter.getFilterKey() != 1) {
+            HPFTimeConstant = filter.getLPFTimeConstant();
+        } else {
+            HPFTimeConstant = filter.getHPFTimeConstant();
+        }
+    }
+
+    private void thirdTypeOfBPFRecombination(Filter filter) {
+        if (filter.getFilterKey() != 1) {
+            LPFAmplifier = filter.getLPFAmplifier();
+        }
     }
 
     /**
